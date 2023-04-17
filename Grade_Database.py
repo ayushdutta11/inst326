@@ -5,4 +5,6 @@ class SchoolDatabase:
     def __init__():
       pass
 
-
+    
+    def main(filepath):
+      pass
