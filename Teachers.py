@@ -25,6 +25,8 @@ class Teacher:
         #have to iterate through some sort of file to append students to
         #the teachers students attribute.
         
+        #Lmao tini is a pussy
+        
     
     def gradeassign(self, file):
         #The following method will take in a the list of student objects from the
