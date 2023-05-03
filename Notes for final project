@@ -1,14 +1,4 @@
-So I have been going through the project. I remember speaking to the teacher about
-just implementing it from the teacher side of grading. Meaning, we will have a 
-teacher class which will have the student class as composition, since teachers
-have students. From there, our teacher class is going to be implemented in a way
-which handles all the grading of assignments of students. We can have functions
-such as (overallgrade, indivgrade, graderound, etc.), Dealing with grading assignments in different ways to satisfy some of the required skills implemented in the project.
-
-For the student class, I want to code it up in a simple way, a student with a name,
-grade, and a list of assigments as it's attribute(we will use this list of assignments in the teacher class to grade each of the assignments). 
-
-From here is where will be implementing our Database class, which will prob be 
-composition of both a student and teacher(as classes both have a teacher and a student). Therefore, we will probably have a complicated nested structure in the __init__ method  (similar to our kinship hw). I don't know if we can finish this by friday, but at least shell out some pseudocode on an approach. From there, we can make a main which will take a filepath(a file we will create), which represents students and 
-teachers for different classes. Similar to the kinship assignment, our file path will most likely be nested dictionaries of different students and teachers, which is why our __init__ method is going to seem complicated. 
-
+Updates made to the gradedicts json file. We will still be using it, and I also
+made two dictionaries, both 2018 and 2019. We can now use both pandas and also 
+our .json dictionary file for our project. It will make the implementation
+of the database and also teacher class easier,
