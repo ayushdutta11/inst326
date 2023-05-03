@@ -17,12 +17,10 @@ class Teacher:
         with open (file, "r") as f:
             data = json.load(f)
         
-       
-        for years in data:
-            for dicts in years: 
-                if (dicts == self.taughtclass):
-                    for item in dicts:
-                        self.students.append(dicts[item])
+        for dicts in data:
+            if (dicts == self.taughtclass):
+                for item in dicts:
+                    self.students.append(dicts[item])
                     
         #have to iterate through some sort of file to append students to
         #the teachers students attribute.
