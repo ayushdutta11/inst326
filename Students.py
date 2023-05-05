@@ -61,7 +61,28 @@ class Student:
         
         return string
         
-        
+    
+    def update_grade(self, year, subject, student_name, new_grade):
+        """Updates the grade of a specific student for a given subject and year. The method first checks if the year 
+        and subject provided exist in the grades dictionary, and if the student name is enrolled in that subject for 
+        that year. If the student is found, the method updates their grade to the new value provided and sorts the grades 
+        for that subject and year in ascending order.
+
+        Args:
+            year (int): The year of the grades to be updated
+            subject (str): The subject of the grades to be updated
+            student_name (str): The name of the student whose grade is to be updated
+            new_grade (int): The new grade to assign to the student
+
+        """
+        if year in self.grades and subject in self.grades[year]:
+            if student_name in self.grades[year][subject]:
+                self.grades[year][subject][student_name] = new_grade
+                sorted_grades = sorted(self.grades[year][subject].items(), key=lambda x: x[1])
+                print(f"Updated {student_name}'s grade in {subject} for year {year} to {new_grade}")
+                print(f"The sorted grades in {subject} for year {year} are: {sorted_grades}")
+            else:
+                print(f"{student_name} is not enrolled in {subject} for year {year}")
             
             
     def studying(self, hours, percent_inc = 0.0):
@@ -139,4 +160,3 @@ class Teacher:
                 newgrades[indiv] = self.students[indiv]
 
         return newgrades
-    
