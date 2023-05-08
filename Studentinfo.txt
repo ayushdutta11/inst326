@@ -1,0 +1,26 @@
+Warren, 12th grade, 34 credits, Homeroom Teacher: Mr. Scott
+Simon, 11th grade, 43 credits, Homeroom Teacher: Mr. Smith
+Jonah, 12th grade, 53 credits, Homeroom Teacher: Mr. Kane
+Mike, 9th grade, 23 credits, Homeroom Teacher:Mr. Smith
+Eric, 10th grade, 45 credits, Homeroom Teacher: Mr. Kane
+Jack, 9th grade, 65 credits, Homeroom Teacher: Mr. Kane
+Dan, 10th grade, 34 credits, Homeroom Teacher: Mr. Scott
+Eyal, 11th grade, 45 credits, Homeroom Teacher:Mr. Smith
+Ethan, 11th grade, 12 credits, Homeroom Teacher: Mr. Kane
+Judah, 10th grade, 18 credits, Homeroom Teacher: Mr. Scott
+Katz, 12th grade, 56 credits, Homeroom Teacher:Mr. Smith
+Taylor, 12th grade, 50 credits, Homeroom Teacher: Mr. Kane
+Astrid, 9th grade, 9 credits, Homeroom Teacher:Mr. Smith
+Miguel, 12th grade, 47 credits, Homeroom Teacher: Mr. Scott
+Kerry, 10th grade, 24 credits, Homeroom Teacher:Mr. Smith
+Oliver, 10th grade, 22 credits, Homeroom Teacher: Mr. Kane
+Hannah, 11th grade, 36 credits, Homeroom Teacher: Mr. Scott
+Mala, 12th grade, 59 credits, Homeroom Teacher:Mr. Smith
+Samantha, 9th grade, 3 credits, Homeroom Teacher: Mr. Kane
+Jaime, 9th grade, 11 credits, Homeroom Teacher: Mr. Scott
+Bob, 12th grade, 49 credits, Homeroom Teacher:Mr. Smith
+Ani, 10th grade, 21 credits, Homeroom Teacher: Mr. Kane
+Sam, 9th grade, 14 credits, Homeroom Teacher: Mr. Scott
+Ayush, 11th grade, 45 credits, Homeroom Teacher: Mr. Kane
+Rick, 12th grade, 32 credits, Homeroom Teacher: Mr. Smith
+Morty, 10th grade, 19 credits, Homeroom Teacher: Mr. Smith
