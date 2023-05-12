@@ -9,7 +9,7 @@ class SchoolDatabase:
     A database that stores and manages student information and grades.
     """
 
-    def __init__(self, schoolname, file, classes = None, gpas = None):
+    def __init__(self, schoolname, file, classes=None, gpas=None):
         """
         Initializes the SchoolDatabase class with the school name and JSON file
         containing student information and grades. Converts the JSON file into a
@@ -22,18 +22,11 @@ class SchoolDatabase:
             gpas (dict): A dictionary containing information about the GPAs of students at the school
         """
         self.schoolname = schoolname
-        #rep the classes alongside with how teaches it for the dataframe
-        #will change tempsjondict to make it so the dictionaries are nested
-        #so that the datframe can also have a class name column
-
-        with open (file, "r") as f:
-                data = json.load(f)
-                self.df = pd.DataFrame.from_dict(data, orient = "index")
-                
         self.classes = classes
         self.gpas = gpas
-        #gpas reps all of the gpa's of students
-        #Converting all the info into json file into dataframe
+        with open(file, "r") as f:
+            data = json.load(f)
+        self.df = pd.DataFrame.from_dict(data, orient="index")
 
     
     def similarclasses(self, class1, class2):
@@ -51,6 +44,7 @@ class SchoolDatabase:
         common_students = students_class1.intersection(students_class2)
         return [f"{self.df.loc[x, 'first_name']} {self.df.loc[x, 'last_name']}" for x in common_students]
   
+  
     def honor_roll(self, threshold=3.0):
         """Find students with a GPA of at least the threshold
 
@@ -67,9 +61,43 @@ class SchoolDatabase:
     
     
     def classes_by_year(self):
-      #Define two different data plots using dataframes, will display 
-      pass
-  
+        """Returns a DataFrame with information about the classes by year
+
+        Returns:
+            A pandas DataFrame with columns for the student's name, classes they
+            took within a school year, and the teacher for each class they are taking.
+        """
+        classes_df = pd.DataFrame.from_dict(self.classes, orient='index').reset_index()
+        classes_df.columns = ['class', 'teacher']
+
+        students_df = self.df.stack().reset_index()
+        students_df.columns = ['name', 'year', 'class']
+        students_df = students_df[students_df['class'].str.len() > 0]
+
+        students_df['classes'] = students_df['name'].apply(lambda x: sorted([class_name for class_name in self.df.loc[x, self.df.columns != 'grade'].values if class_name != '']))
+
+        merged_df = pd.merge(students_df, classes_df, on='class', how='left')
+        merged_df = merged_df[['name', 'year', 'class', 'teacher']]
+        merged_df = merged_df.drop_duplicates().reset_index(drop=True)
+
+        return merged_df
+    
+    def export_json(self, filename):
+        """Exports the student information and grades to a JSON file.
+
+        Args:
+            filename (str): The name of the file to export to.
+        """
+        parser = argparse.ArgumentParser(description='Export student information to JSON file.')
+        parser.add_argument('--indent', type=int, default=4, help='number of spaces for JSON indentation')
+        args = parser.parse_args()
+
+        data = self.df.to_dict(orient='index')
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=args.indent)
+
+
+
 
 #Will a teacher also have composition of a student? Most likely combine 
 # teachers and students file into one when done.
