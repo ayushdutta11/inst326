@@ -3,35 +3,67 @@ import json
 import pandas as pd
 import sys
 
-# For all of the docstrings, there is still some info missing.
 # What to add: Contributer of method, techniques displayed
 class SchoolDatabase:
-    "A data collection that sort outs and grades peoples homework"
-
-    "These are my first commits"
+    """
+    A database that stores and manages student information and grades.
+    """
 
     def __init__(self, schoolname, file, classes = None, gpas = None):
-      self.schoolname = schoolname
-      #rep the classes alongside with how teaches it for the dataframe
-      #will change tempsjondict to make it so the dictionaries are nested
-      #so that the datframe can also have a class name column
+        """
+        Initializes the SchoolDatabase class with the school name and JSON file
+        containing student information and grades. Converts the JSON file into a
+        pandas DataFrame.
 
-      with open (file, "r") as f:
-            data = json.load(f)
-            self.df = pd.DataFrame.from_dict(data, orient = "index")
-            
-            
-      #gpas reps all of the gpa's of students
-      #Converting all the info into json file into dataframe
+        Args:
+            schoolname (str): The name of the school
+            file (str): The path to the JSON file containing student information and grades
+            classes (dict): A dictionary containing information about the classes taught at the school
+            gpas (dict): A dictionary containing information about the GPAs of students at the school
+        """
+        self.schoolname = schoolname
+        #rep the classes alongside with how teaches it for the dataframe
+        #will change tempsjondict to make it so the dictionaries are nested
+        #so that the datframe can also have a class name column
+
+        with open (file, "r") as f:
+                data = json.load(f)
+                self.df = pd.DataFrame.from_dict(data, orient = "index")
+                
+        self.classes = classes
+        self.gpas = gpas
+        #gpas reps all of the gpa's of students
+        #Converting all the info into json file into dataframe
 
     
-    def similarclasses(self):
-      #using for sets
-      pass
+    def similarclasses(self, class1, class2):
+        """Find students who are taking both class1 and class2
+
+        Args:
+            class1 (str): the name of the first class
+            class2 (str): the name of the second class
+
+        Returns:
+            A list of student names who are taking both class1 and class2
+        """
+        students_class1 = {x for x, row in self.df.iterrows() if row[class1] != ''}
+        students_class2 = {x for x, row in self.df.iterrows() if row[class2] != ''}
+        common_students = students_class1.intersection(students_class2)
+        return [f"{self.df.loc[x, 'first_name']} {self.df.loc[x, 'last_name']}" for x in common_students]
   
-    def honor_roll(self):
-      #Will define a lmabda/list comprhension of students with above 3.0's.
-      pass
+    def honor_roll(self, threshold=3.0):
+        """Find students with a GPA of at least the threshold
+
+        Args:
+            threshold (float): The minimum GPA required to be on the honor roll.
+
+        Returns:
+            A list of student names with a GPA of at least the threshold
+        """
+        grades = self.df.drop(['teacher', 'class'], axis=1).astype(float)
+        gpa = grades.apply(lambda row: sum(row)/len(row)/20, axis=1)
+        
+        return gpa[gpa >= threshold].index.tolist()
     
     
     def classes_by_year(self):
@@ -39,31 +71,22 @@ class SchoolDatabase:
       pass
   
 
-
 #Will a teacher also have composition of a student? Most likely combine 
 # teachers and students file into one when done.
 class Student:
     """ The following represents a student. The following student 
     will have components representing information about their school,
     alongside with their grades. Will be used in order to retrieve
-    information about student in the SchoolDatabase class.
+    information about student in the SchoolDatabase class
     
     Attributes:
-      name (str)
-      grades (dict)
-      classname ()
+        name (str): The name of the student
+        grades (dict): A dictionary containing the student's grades
+        classname (list): A list containing the names of the classes the student is taking
     """
     
-    
-    
-    
-    
     def __init__(self, file, name):
-        #can update args to see what more to add.
-        """
-        
-        
-        
+        """ Initialize a student object
         """
         #text file will be potentially used to populate student info attribute section.
         self.grades = {}
@@ -78,11 +101,9 @@ class Student:
                     #reason for such errors is needing to combine json files
                     for items in dicts:
                         if dicts[items] == self.name:
-                            self.grades[items] = items
+                            self.grades[items] = dicts[items]
                             self.classname.append(items)
-                            
-        
-                  
+                            index += 1
     
     def __displaygrades__(self):
         """Defines the common string representation of a student alongside
@@ -110,61 +131,61 @@ class Student:
         
         
     def toletter(self):
-            #combine with __displaygrades__
-            if self.grades > 90 and self.grades <= 100:
-                return 'A'
-            elif self.grades > 80 and self.grades < 90:
-                return 'B'
-            elif self.grades > 70 and self.grades < 80:
-               return 'C'
-            elif self.grades > 60 and self.grades < 70:
-               return 'D'
-            else:
-                return 'F'
+        """ Returns the letter grade for the student
 
-        
-            
-    def studying(self, hours, percent_inc = 0.0):
-        # I dunno maybe make something that returns an increased possiblity
-        # of what their grade will be for the teacher class.
-        if hours > 0:
-            percent_inc = hours/8
-            for grades in self.grades:
-                self.grades[grades] += percent_inc
+        Returns:
+            str: The letter grade for the student
+        """
+        avg_grade = sum(self.grades.values()) / len(self.grades)
+
+        if avg_grade > 90 and avg_grade <= 100:
+            return 'A'
+        elif avg_grade > 80 and avg_grade < 90:
+            return 'B'
+        elif avg_grade > 70 and avg_grade < 80:
+            return 'C'
+        elif avg_grade > 60 and avg_grade < 70:
+            return 'D'
         else:
-            print("Student is Lazy")
+            return 'F'
         
     
     def getgpa(self):
-        # Will most likely make a new dictionary on the top transfer
-        #letter grades to gpa.
-        gpa = 0.0
-        for classes in self.grades:
-            #if (grade == A):
-              gpa += 4
-              
-              
-              
-        gpa / len(self.grades)
-            
-            
-          
-          
+        """ Returns the GPA for the student
+
+        Returns:
+            float: The GPA for the student
+        """
+
+        gpa_dict = {'A': 4.0, 'B': 3.0, 'C': 2.0, 'D': 1.0, 'F': 0.0}
         
-          
-    
+        gpa = 0.0
+        for grade in self.grades.values():
+            letter_grade = self.toletter(grade)
+            gpa += gpa_dict[letter_grade]
+
+        return gpa / len(self.grades)
+            
 
 class Teacher:
-#Still some updates for the following teacher and student class to come. 
-#After learning about pandas, I want to make the overall Grade_Database file
-#implement both the student as well as teacher class, that way it can process
-# all the information and create a database with students, classes taken, teachers for classes,
-#and grades all in a single database.
-#final design for grade_database will also include filtered panda structures 
-#defining honor roll students, etc.    
+    """
+    A class representing a teacher
     
-#Still a couple more functions to define for teacher class, and still needs to define student class.
+    Attributes:
+      name (str): The name of the teacher.
+      taughtclass (str): The class taught by the teacher
+      students (list): The list of students in the class taught by the teacher
+
+    """
     def __init__(self, name, taughtclass, file):
+        """
+        Initializes a Teacher object
+        
+        Args:
+          name (str): The name of the teacher
+          taughtclass (str): The class taught by the teacher
+          file (str): The name of the json file containing the list of students in the class
+        """
         self.students = []
         self.name = name
         self.taughtclass = taughtclass
@@ -175,38 +196,47 @@ class Teacher:
             if (str(dicts) == self.taughtclass):
                 for item in dicts:
                     self.students.append(dicts[item])
-                    
-        #have to iterate through some sort of file to append students to
-        #the teachers students attribute.
         
         
-    
     def gradeassign(self, file):
-        #The following method will take in a the list of student objects from the
-        #teacher's dictionary, and return a new list containing the grades of 
-        #each student for the following assignment. 
-        #Will be useful for constructing column of dataframe which contains all assignments alongside with grades.
-         grades = {}
-         for indiv in self.students:
-             grade = self.students[indiv]
-             new_grade = grade + 2.5 if grade > 75 else grade - 2.5
-             grades[indiv] = new_grade
+        """
+        Assigns grades for a given assignment to all students in the class. The method takes in a list of student objects 
+        from the teacher's dictionary, and returns a new list containing the grades of each student for the following assignment.
         
-         return grades
+        Args:
+          file (str): The name of the json file containing the list of students in the class.
+        
+        Returns:
+          grades (dict): A dictionary where the keys are the student names and the values are 
+        their grades for the assignment
+        """
+        grades = {}
+        for indiv in self.students:
+            grade = indiv.grades[self.taughtclass]
+            new_grade = grade + 2.5 if grade > 75 else grade - 2.5
+            grades[indiv.name] = new_grade
+        
+        return grades
       
-
-        
         
     def curveoverall(self, curvepercent, curve = "yes"):
-        #The final will decide whether or not the teacher decides to curve the grades of the students,
-        # and the increase will be given by the curvepercent arg.
+        """
+        Curves the grades of students in the class based on a given percentage.
+        
+        Args:
+          curvepercent (float): The percentage by which to curve the grades.
+          curve (str): A flag indicating whether or not to curve the grades. Default is "yes".
+        
+        Returns:
+          newgrades (dict): A dictionary where the keys are the student names and the values are 
+        their curved grades.
+        """
         newgrades = {}
         for indiv in self.students:
             if curve == "yes":
-             for indiv in self.students:
-                 newgrades[indiv] = self.students[indiv] + curvepercent
+                newgrades[indiv.name] = indiv.grades[self.taughtclass] + curvepercent
             else:
-                newgrades[indiv] = self.students[indiv]
+                newgrades[indiv.name] = indiv.grades[self.taughtclass]
 
         return newgrades
     
@@ -218,10 +248,8 @@ def main(Mainfile, Sidefile):
     #should print a datframe based on the tempjsondict
     datab.df.head()
     
-    print(f'{teach.students}')
+    print(f'Students in class: {teach.students}')
   
-
- 
 
 def parse_args(argslist):
   parser = ArgumentParser()

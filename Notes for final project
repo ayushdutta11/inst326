@@ -1,4 +1,0 @@
-Updates made to the gradedicts json file. We will still be using it, and I also
-made two dictionaries, both 2018 and 2019. We can now use both pandas and also 
-our .json dictionary file for our project. It will make the implementation
-of the database and also teacher class easier,
