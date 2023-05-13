@@ -62,9 +62,14 @@ class Student:
     def __init__(self, file, name):
         #can update args to see what more to add.
         """
-        Do Docstring
+        Initializes a student object.
         
-        
+        Args: 
+            file (str): filepath to the gradesdict.json file
+            name (str): student name 
+        Side effects:
+            self.grades, self.classname, and self.name get populated by their 
+            corresponding values.
         """
         #text file will be potentially used to populate student info attribute section.
         self.grades = {}
@@ -112,16 +117,20 @@ class Student:
         
     def toletter(self, grade):
         '''
-        Docstring
-        
+        Converts numerical grade to letter name
+
+        Args:
+            grade (int): numerical grade in course
+        Returns:
+            str: corresponding letter grade 
         '''
             #combine with __displaygrades__
-            return ('A' if 90 <= grade <= 100 else 
-                    'B' if 80 <= grade < 90 else 
-                    'C' if 70 <= grade < 80 else
-                    'D' if 60 <= grade < 70 else 
-                    'F'
-                    )
+        return ('A' if 90 <= grade <= 100 else 
+                'B' if 80 <= grade < 90 else 
+                'C' if 70 <= grade < 80 else
+                'D' if 60 <= grade < 70 else 
+                'F'
+                )
 
         
             
