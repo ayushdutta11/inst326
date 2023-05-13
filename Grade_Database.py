@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 import json
 import pandas as pd
 import sys
+import re 
 
 # For all of the docstrings, there is still some info missing.
 # What to add: Contributer of method, techniques displayed
@@ -61,7 +62,7 @@ class Student:
     def __init__(self, file, name):
         #can update args to see what more to add.
         """
-        
+        Do Docstring
         
         
         """
@@ -72,15 +73,15 @@ class Student:
         index = 0
         with open (file, "r") as f:
             data = json.load(f)
-            for years in data:
-              for dicts in years:
-                  while (index < 4):
-                    #reason for such errors is needing to combine json files
-                    for items in dicts:
-                        if dicts[items] == self.name:
-                            self.grades[items] = items
-                            self.classname.append(items)
-                            
+            for year, schoolinfo in data.items():
+              for key, items in schoolinfo.items():
+                  if re.search(r"^[a-z]", key):
+                    for student, grade in items.items():
+                        if student == self.name:
+                            self.grades[key] = int(grade)
+                            self.classname.append(key)
+
+                           
         
                   
     
@@ -109,18 +110,18 @@ class Student:
         return string
         
         
-    def toletter(self):
+    def toletter(self, grade):
+        '''
+        Docstring
+        
+        '''
             #combine with __displaygrades__
-            if self.grades > 90 and self.grades <= 100:
-                return 'A'
-            elif self.grades > 80 and self.grades < 90:
-                return 'B'
-            elif self.grades > 70 and self.grades < 80:
-               return 'C'
-            elif self.grades > 60 and self.grades < 70:
-               return 'D'
-            else:
-                return 'F'
+            return ('A' if 90 <= grade <= 100 else 
+                    'B' if 80 <= grade < 90 else 
+                    'C' if 70 <= grade < 80 else
+                    'D' if 60 <= grade < 70 else 
+                    'F'
+                    )
 
         
             

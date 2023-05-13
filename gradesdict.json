@@ -1,5 +1,4 @@
- 
- {
+{
   "2018": {
     "math": {
       "Simon": "84",
@@ -195,7 +194,7 @@
         "Ani": "85",
         "Bob": "56"
       },
-      "history": {
+      "advanced history": {
         "Simon": "42",
         "Jonah": "73",
         "Mike": "90",
